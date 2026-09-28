@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laugh Request</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>Laugh Request</h1>
+      <p>Pick a category. Get a joke. Question your sense of humor.</p>
+    </header>
+
+    <form action="/joke" method="POST">
+      <label for="category">Joke category</label>
+
+      <select id="category" name="category" required>
+        <% categories.forEach((category) => { %>
+          <option
+            value="<%= category %>"
+            <%= selectedCategory === category ? "selected" : "" %>
+          >
+            <%= category %>
+          </option>
+        <% }); %>
+      </select>
+
+      <button type="submit">Make Me Laugh</button>
+    </form>
+
+    <% if (error) { %>
+      <p class="error" role="alert"><%= error %></p>
+    <% } %>
+
+    <% if (joke) { %>
+      <section class="joke-card">
+        <h2><%= joke.category %> Joke</h2>
+
+        <% if (joke.type === "single") { %>
+          <p class="joke-text"><%= joke.joke %></p>
+        <% } else { %>
+          <p class="joke-text"><%= joke.setup %></p>
+          <p class="punchline"><%= joke.delivery %></p>
+        <% } %>
+      </section>
+    <% } else if (!error) { %>
+      <p class="placeholder">Your next terrible joke is one click away.</p>
+    <% } %>
+
+    <footer>
+      <p>Powered by <a href="https://sv443.net/jokeapi/v2/">JokeAPI</a></p>
+    </footer>
+  </main>
+</body>
+</html>
